@@ -1,15 +1,27 @@
 #
 # application.yml — главный конфигурационный файл Spring Boot.
 server:
-  port: 8080
+  port: 7777
+#spring:
+#  datasource:
+#    url: jdbc:postgresql://${HOST_DB}:${PORT_DB}/${NAME_DB}
+#    username: ${USERNAME_DB}
+#    password: ${PASSWORD_DB}
 spring:
   datasource:
-    url: jdbc:postgresql://${HOST_DB}:${PORT_DB}/${NAME_DB}
-    username: ${USERNAME_DB}
-    password: ${PASSWORD_DB}
+    url: jdbc:postgresql://localhost:5432/card_db
+    username: card_user
+    password: card_psw
   jpa:
     hibernate:
       ddl-auto: update
+    show-sql: true
+  docker:
+    compose:
+      enabled: false
+  flyway:
+    enabled: false
+
 
 
 
@@ -24,3 +36,5 @@ springdoc:
     path: /v3/api-docs
 #    springdoc.swagger-ui.enabled=true
 #    springdoc.swagger-ui.path=/swagger-ui.html
+#debug: true
+

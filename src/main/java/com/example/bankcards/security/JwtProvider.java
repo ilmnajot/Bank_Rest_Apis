@@ -1,4 +1,4 @@
-package com.example.bankcards.config.jwt;
+package com.example.bankcards.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -27,9 +27,6 @@ public class JwtProvider {
         return buildToken(new HashMap<>(), phone, ACCESS_TOKEN_EXPIRATION_MS);
     }
 
-    public String generateRefreshToken(String phone) {
-        return buildToken(new HashMap<>(), phone, REFRESH_TOKEN_EXPIRATION_MS);
-    }
 
     public String buildToken(Map<String, Object> claims, String subject, long expirationMs) {
         return Jwts

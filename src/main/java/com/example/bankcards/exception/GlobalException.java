@@ -59,6 +59,28 @@ public class GlobalException {
                 .status(HttpStatus.NOT_FOUND)
                 .build();
     }
+    @ExceptionHandler(CardExpiredException.class)
+    public ResponseEntity<ApiResponse> handleCardExpiredException(CardExpiredException ex) {
+        log.warn("Card expired attempt: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.builder()
+                        .status(HttpStatus.BAD_REQUEST)
+                        .message("Card operation failed")
+                        .data(Map.of("error", "CARD_EXPIRED", "details", ex.getMessage()))
+                        .build());
+    }
+
+    @ExceptionHandler(CardBlockedException.class)
+    public ResponseEntity<ApiResponse> handleCardBlockedException(CardBlockedException ex) {
+        log.warn("Card blocked attempt: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.builder()
+                        .status(HttpStatus.BAD_REQUEST)
+                        .message("Card operation failed")
+                        .data(Map.of("error", "CARD_BLOCKED", "details", ex.getMessage()))
+                        .build());
+    }
+
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(value = {UserNotFoundException.class})

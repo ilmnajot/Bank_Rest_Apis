@@ -3,6 +3,6 @@ WORKDIR /app
 
 COPY target/bank-rest.jar bank-rest.jar
 
-EXPOSE 8181
+EXPOSE 7777
 
 ENTRYPOINT ["java", "-jar", "bank-rest.jar"]

@@ -1,11 +1,11 @@
 package com.example.bankcards.config;
 
-import com.example.bankcards.config.jwt.JwtFilter;
+import com.example.bankcards.security.JwtFilter;
+import com.example.bankcards.security.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -19,7 +19,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -39,7 +38,7 @@ public class SecurityConfig {
     public SecurityConfig(
             JwtFilter jwtFilter,
             CustomAccessDeniedHandler customAccessDeniedHandler,
-            CustomAuthenticationEntryPoint customAuthenticationEntryPoint/*, CustomAuthenticationSuccessHandler handler*/) {
+            CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
         this.jwtFilter = jwtFilter;
         this.customAccessDeniedHandler = customAccessDeniedHandler;
         this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
@@ -54,13 +53,13 @@ public class SecurityConfig {
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults()) //changed from disabled to defaults
+                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authRequest ->
                         authRequest
                                 .requestMatchers(WHITE_LIST).permitAll()
                                 .requestMatchers(BLACK_LIST).permitAll()
-                                .requestMatchers(HttpMethod.POST, "/auths/login").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/auths/register-employee").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/auths/**").permitAll()
+                                .requestMatchers("/api/v1/cars/**").permitAll()
                                 .anyRequest()
                                 .authenticated())
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -73,15 +72,13 @@ public class SecurityConfig {
     }
 
     private static final String[] WHITE_LIST = {
-
             "/swagger-ui/**",
             "/swagger-ui.html",
             "/webjars/**",
-            "/swagger-resources/**",//added
+            "/swagger-resources/**",
             "/v3/api-docs/**",
-            "/v2/api-docs", //added
+            "/v2/api-docs",
             "/actuator/**"
-
     };
     private static final String[] BLACK_LIST = {
             "/auths/login/**"
@@ -96,23 +93,17 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(
-                "http://localhost:3000",
-                "*** -> others to allow"
+                "http://localhost:7777"
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
-        configuration.setExposedHeaders(List.of("Authorization")); // Optional
+        configuration.setAllowedHeaders(List.of(SecurityConstants.AUTHORIZATION, "Content-Type", "Accept"));
+        configuration.setExposedHeaders(List.of(SecurityConstants.AUTHORIZATION)); // Optional
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate(new HttpComponentsClientHttpRequestFactory());
-    }
-
 
 }
 

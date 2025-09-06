@@ -2,6 +2,7 @@ package com.example.bankcards.entity;
 
 import com.example.bankcards.entity.base.BaseEntity;
 import com.example.bankcards.entity.enums.Role;
+import com.example.bankcards.entity.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,15 +21,22 @@ import java.util.List;
 @Builder
 @Table(name = "users")
 public class User extends BaseEntity implements UserDetails {
+
+    @Column(nullable = false)
     private String fullName;
     @Column(unique = true)
-    private String email;
-    @Column(unique = true, nullable = false)
-    private String phoneNumber;
+    private String username;
+
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+
     private Role role;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private UserStatus userStatus;
 
 
     @Override
@@ -45,7 +53,26 @@ public class User extends BaseEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return phoneNumber;
+        return username;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
