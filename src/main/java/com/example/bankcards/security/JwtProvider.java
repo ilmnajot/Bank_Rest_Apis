@@ -21,10 +21,9 @@ public class JwtProvider {
     private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(KEY));
 
     private static final long ACCESS_TOKEN_EXPIRATION_MS = 1000L * 60 * 60 * 8; // 8 h
-    private static final long REFRESH_TOKEN_EXPIRATION_MS = 1000L * 60 * 60 * 8; // 8 h
 
-    public String generateAccessToken(String phone) {
-        return buildToken(new HashMap<>(), phone, ACCESS_TOKEN_EXPIRATION_MS);
+    public String generateAccessToken(String username) {
+        return buildToken(new HashMap<>(), username, ACCESS_TOKEN_EXPIRATION_MS);
     }
 
 
@@ -50,7 +49,7 @@ public class JwtProvider {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 8)) // 8 h
+                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION_MS)) // 8 h
                 .signWith(SECRET_KEY, SignatureAlgorithm.HS512)
                 .compact();
     }
@@ -91,12 +90,12 @@ public class JwtProvider {
 
     public String getUsernameFromToken(String token) {
         Claims claims = Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())// Agar audience tekshirish kerak bo'lsa
+                .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
 
-        return claims.getSubject(); // Username - "subject" maydonida bo'ladi
+        return claims.getSubject();
     }
 
     private Key getSigningKey() {

@@ -10,12 +10,14 @@ public interface AuthService {
 
     ApiResponse registerEmployee(UserDto.RegisterEmployeeDto dto);
 
-    ApiResponse changeCredentials(AuthDto.CreateCredentialDto dto, Long id);
+    ApiResponse changeCredentials(AuthDto.ChangeCredentialDto dto, Long id);
 
     ApiResponse login(AuthDto.LoginDto dto);
 
 
     ApiResponse changePassword(AuthDto.PasswordDto dto, Long id);
 
-    ApiResponse updateEmployeeByAdmin(UserDto.UpdateEmployeeDto dto);
+    ApiResponse updateEmployeeByAdmin(UserDto.UpdateEmployeeDto dto, Long userId);
+
+    ApiResponse getUserById(Long userId);
 }

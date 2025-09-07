@@ -9,13 +9,13 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Builder
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Builder
-@Table(name = "cars")
+@Table(name = "cards")
 public class Card extends BaseEntity {
 
     @Column(nullable = false, unique = true)

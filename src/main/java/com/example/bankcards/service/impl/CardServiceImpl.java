@@ -199,6 +199,12 @@ public class CardServiceImpl implements CardService {
     @Transactional
     @Override
     public ApiResponse transferMoneyBetweenCards(String from, String to, BigDecimal amount) {
+        if (this.checkAmount(amount)) {
+            return ApiResponse.builder()
+                    .status(HttpStatus.BAD_REQUEST)
+                    .message("Card cannot be negative or zero")
+                    .build();
+        }
         String encryptFrom = this.encryptionService.encrypt(from);
         String encryptTo = this.encryptionService.encrypt(to);
 
@@ -219,12 +225,6 @@ public class CardServiceImpl implements CardService {
         }
 
 
-        if (this.checkAmount(amount)) {
-            return ApiResponse.builder()
-                    .status(HttpStatus.BAD_REQUEST)
-                    .message("Card cannot be negative or zero")
-                    .build();
-        }
 
         if (cardFrom.getBalance().compareTo(amount) < 0) {
             return ApiResponse.builder()

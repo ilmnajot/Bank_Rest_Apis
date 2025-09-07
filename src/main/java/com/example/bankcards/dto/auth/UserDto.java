@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 public class UserDto {
 
     private Long id;
@@ -34,6 +35,7 @@ public class UserDto {
 
 
 
+
     @Data
     public static class RegisterEmployeeDto {
 
@@ -47,10 +49,8 @@ public class UserDto {
         @Data
         public static class UpdateEmployeeDto {
 
-            private Long userId;
             private String fullName;
             private String username;
-            private String password;
             private UserStatus userStatus;
 
         }

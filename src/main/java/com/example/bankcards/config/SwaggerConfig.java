@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
         info = @Info(
-                title = "Bank_Rest APIs",
+                title = "Bank_Rest || Effective mobile APIs",
                 version = "2.0",
                 description = "API Documentation"
         ),

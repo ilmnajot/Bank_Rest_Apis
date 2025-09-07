@@ -1,6 +1,7 @@
 package com.example.bankcards.dto.mapper;
 
 import com.example.bankcards.dto.CardDto;
+import com.example.bankcards.dto.auth.AuthDto;
 import com.example.bankcards.dto.auth.UserDto;
 import com.example.bankcards.entity.Card;
 import com.example.bankcards.entity.User;
@@ -40,6 +41,30 @@ public class UserMapper {
                 .role(role)
                 .userStatus(dto.getUserStatus())
                 .build();
+    }
+
+    public void toUpdate(AuthDto.ChangeCredentialDto dto, User user) {
+        if (dto == null) return;
+
+        if (dto.getFullName() != null && !dto.getFullName().trim().isEmpty()) {
+            user.setFullName(dto.getFullName());
+        }
+        if (dto.getUsername() != null && !dto.getUsername().trim().isEmpty()) {
+            user.setUsername(dto.getUsername());
+        }
+    }
+    public void toUpdate(UserDto.UpdateEmployeeDto dto, User user) {
+        if (dto == null) return;
+
+        if (dto.getFullName() != null && !dto.getFullName().trim().isEmpty()) {
+            user.setFullName(dto.getFullName());
+        }
+        if (dto.getUsername() != null && !dto.getUsername().trim().isEmpty()) {
+            user.setUsername(dto.getUsername());
+        }
+        if (dto.getUserStatus()!=null){
+            user.setUserStatus(dto.getUserStatus());
+        }
     }
 
 }

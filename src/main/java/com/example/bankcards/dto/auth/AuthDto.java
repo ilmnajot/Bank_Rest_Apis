@@ -29,8 +29,14 @@ public class AuthDto {
     @Data
     public static class CreateCredentialDto {
         private String fullName;
-        private String email;
-        private String phoneNumber;
+        private String username;
+        private Role role;
+        private UserStatus userStatus;
+    }
+    @Data
+    public static class ChangeCredentialDto {
+        private String fullName;
+        private String username;
     }
 
     @Data

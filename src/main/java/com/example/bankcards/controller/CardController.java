@@ -7,6 +7,7 @@ import com.example.bankcards.filter.CardFilter;
 import com.example.bankcards.service.CardService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -21,32 +22,40 @@ public class CardController {
         this.cardService = cardService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add-card")
     public ApiResponse addCard(@RequestBody CardDto.CreateCardDto dto) {
         return this.cardService.addCard(dto);
     }
 
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping("/get/{id}")
     public ApiResponse getCard(@PathVariable Long id) {
         return this.cardService.getCard(id);
     }
 
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping("/get-own-cards")
     public ApiResponse getMyCards() {
         return this.cardService.getMyCards();
     }
 
+
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping("/get-card-details/{cardId}")
     public ApiResponse getCardDetails(@PathVariable(name = "cardId") Long id) {
         return this.cardService.getCardDetails(id);
     }
 
+
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @PostMapping("/fill-card")
     public ApiResponse fillCard(@RequestParam(value = "card") String card,
                                 @RequestParam(value = "amount") BigDecimal amount) {
         return this.cardService.fillCard(card, amount);
     }
 
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @PostMapping("/transfer-money")
     public ApiResponse transferMoneyBetweenCards(@RequestParam(value = "cardFrom") String from,
                                                  @RequestParam(value = "cardTo") String to,
@@ -54,12 +63,14 @@ public class CardController {
         return this.cardService.transferMoneyBetweenCards(from, to, amount);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/change-card-status/{cardId}")
     public ApiResponse changeCardStatus(@PathVariable(value = "cardId") Long id,
                                         @RequestParam(value = "cardStatus") CardStatus cardStatus) {
         return this.cardService.changeCardStatus(id, cardStatus);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/get-all-cards")
     public ApiResponse getAllCards(
             @RequestParam(value = "keyword", required = false) String keyword,
@@ -74,16 +85,19 @@ public class CardController {
         return this.cardService.getAllCards(filter, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt")));
     }
 
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping("/get-balance")
     public ApiResponse getBalance(@RequestParam(value = "cardId") Long id) {
         return this.cardService.getBalance(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete-card/{cardId}")
     public ApiResponse deleteCard(@PathVariable(name = "cardId") Long cardId) {
         return this.cardService.deleteCard(cardId);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update-card/{cardId}")
     public ApiResponse updateCard(@PathVariable(value = "cardId") Long id, @RequestBody CardDto.UpdateCardDto dto) {
         return this.cardService.updateCard(id, dto);

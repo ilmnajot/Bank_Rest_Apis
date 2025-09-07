@@ -44,7 +44,7 @@ public class EncryptionService {
     }
 
     public String generateCardNumber() {
-        String bin = "1234"; // Bank identifikatori (4 ta raqam)
+        String bin = "1234";
         StringBuilder sb = new StringBuilder(bin);
 
         for (int i = 0; i < 11; i++) {

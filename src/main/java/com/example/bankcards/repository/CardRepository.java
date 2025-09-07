@@ -19,7 +19,5 @@ public interface CardRepository extends JpaRepository<Card,Long>, JpaSpecificati
 
     Optional<Card> findByEncryptedNumber(String encryptedNumber);
 
-    List<Card> findAllByExpiryDateBefore(LocalDate expiryDateBefore);
-
     List<Card> findAllByExpiryDateBeforeAndStatusNot(LocalDate expiryDateBefore, CardStatus status);
 }

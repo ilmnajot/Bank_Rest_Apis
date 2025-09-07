@@ -58,8 +58,9 @@ public class SecurityConfig {
                         authRequest
                                 .requestMatchers(WHITE_LIST).permitAll()
                                 .requestMatchers(BLACK_LIST).permitAll()
-                                .requestMatchers(HttpMethod.POST, "/auths/**").permitAll()
-                                .requestMatchers("/api/v1/cars/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/auths/register-employee").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/auths/login").permitAll()
+//                                .requestMatchers("/api/v1/cards/**").permitAll()
                                 .anyRequest()
                                 .authenticated())
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -97,7 +98,7 @@ public class SecurityConfig {
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of(SecurityConstants.AUTHORIZATION, "Content-Type", "Accept"));
-        configuration.setExposedHeaders(List.of(SecurityConstants.AUTHORIZATION)); // Optional
+        configuration.setExposedHeaders(List.of(SecurityConstants.AUTHORIZATION));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

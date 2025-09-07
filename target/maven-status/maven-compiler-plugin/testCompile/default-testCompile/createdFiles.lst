@@ -1,0 +1,4 @@
+com/example/bankcards/service/CardServiceTransactionTest.class
+com/example/bankcards/service/AuthServiceTest.class
+com/example/bankcards/service/CardServiceTest.class
+com/example/bankcards/service/CardServiceTransferTest.class

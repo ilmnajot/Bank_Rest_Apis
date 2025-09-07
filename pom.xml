@@ -63,18 +63,6 @@
                 <optional>true</optional>
             </dependency>
 
-            <!-- Flyway -->
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-            <version>11.12.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-database-postgresql</artifactId>
-            <version>11.12.0</version>
-        </dependency>
-
             <!-- Swagger/OpenAPI -->
             <dependency>
                 <groupId>org.springdoc</groupId>
@@ -112,6 +100,12 @@
                 <artifactId>spring-security-test</artifactId>
                 <scope>test</scope>
             </dependency>
+
+        <!-- luquidbase -->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
 
     </dependencies>
 

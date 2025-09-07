@@ -95,7 +95,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public ApiResponse changeCredentials(AuthDto.CreateCredentialDto dto, Long id) {
+    public ApiResponse changeCredentials(AuthDto.ChangeCredentialDto dto, Long id) {
         String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
         User existingUser = this.userRepository.findByIdAndDeletedFalse(id)
                 .orElseThrow(() -> new UserNotFoundException(RestConstants.USER_NOT_FOUND));
@@ -106,15 +106,13 @@ public class AuthServiceImpl implements AuthService {
                     .message(RestConstants.FAILED_TO_UPDATE)
                     .build();
         }
-        System.out.println("Before Save: " + existingUser);
+        this.userMapper.toUpdate(dto, existingUser);
         this.userRepository.save(existingUser);
         return ApiResponse.builder()
                 .status(HttpStatus.OK)
                 .message(RestConstants.USER_UPDATED)
-//                .data(credentialDto)
                 .build();
     }
-
 
     @Override
     public ApiResponse changePassword(AuthDto.PasswordDto dto, Long id) {
@@ -177,23 +175,29 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public ApiResponse updateEmployeeByAdmin(UserDto.UpdateEmployeeDto dto) {
+    public ApiResponse updateEmployeeByAdmin(UserDto.UpdateEmployeeDto dto, Long userId) {
 
-        User user = this.userRepository.findByIdAndDeletedFalse(dto.getUserId())
+        User user = this.userRepository.findByIdAndDeletedFalse(userId)
                 .orElseThrow(() -> new UserNotFoundException(RestConstants.USER_NOT_FOUND));
-
-
-        if (dto.getFullName() != null && !dto.getFullName().trim().isEmpty()) {
-            user.setFullName(dto.getFullName());
-        }
-
-
+        this.userMapper.toUpdate(dto, user);
         User saved = this.userRepository.save(user);
 
         return ApiResponse.builder()
                 .status(HttpStatus.OK)
                 .message(RestConstants.USER_UPDATED)
                 .data(saved)
+                .build();
+    }
+
+    @Override
+    public ApiResponse getUserById(Long userId) {
+        User user = this.userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(RestConstants.USER_NOT_FOUND));
+        UserDto dto = this.userMapper.toDto(user);
+        return ApiResponse.builder()
+                .status(HttpStatus.OK)
+                .message(RestConstants.SUCCESS)
+                .data(dto)
                 .build();
     }
 
