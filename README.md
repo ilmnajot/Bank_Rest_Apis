@@ -1,106 +1,105 @@
-<h1>🚀 Разработка Системы Управления Банковскими Картами</h1>
+# Bank Cards Management System 💳
 
-<h2>📁 Стартовая структура</h2>
-  <p>
-    Проектная структура с директориями и описательными файлами (<code>README Controller.md</code>, <code>README Service.md</code> и т.д.) уже подготовлена.<br />
-    Все реализации нужно добавлять <strong>в соответствующие директории</strong>.
-  </p>
-  <p>
-    После завершения разработки <strong>временные README-файлы нужно удалить</strong>, чтобы они не попадали в итоговую сборку.
-  </p>
-  
-<h2>📝 Описание задачи</h2>
-  <p>Разработать backend-приложение на Java (Spring Boot) для управления банковскими картами:</p>
-  <ul>
-    <li>Создание и управление картами</li>
-    <li>Просмотр карт</li>
-    <li>Переводы между своими картами</li>
-  </ul>
+## Overview
+This project is a **Bank Card Management System** built with Spring Boot.  
+It provides functionality for **managing users, bank cards, and transactions**.  
+The system implements **role-based access control (RBAC)** using Spring Security and JWT authentication.
 
-<h2>💳 Атрибуты карты</h2>
-  <ul>
-    <li>Номер карты (зашифрован, отображается маской: <code>**** **** **** 1234</code>)</li>
-    <li>Владелец</li>
-    <li>Срок действия</li>
-    <li>Статус: Активна, Заблокирована, Истек срок</li>
-    <li>Баланс</li>
-  </ul>
+---
 
-<h2>🧾 Требования</h2>
+## Features
 
-<h3>✅ Аутентификация и авторизация</h3>
-  <ul>
-    <li>Spring Security + JWT</li>
-    <li>Роли: <code>ADMIN</code> и <code>USER</code></li>
-  </ul>
+### 🔑 Authentication & Authorization
+- User registration and login
+- JWT-based authentication
+- Role-based access control (`ADMIN`, `USER`, etc.)
+- Secure password hashing with BCrypt
 
-<h3>✅ Возможности</h3>
-<strong>Администратор:</strong>
-  <ul>
-    <li>Создаёт, блокирует, активирует, удаляет карты</li>
-    <li>Управляет пользователями</li>
-    <li>Видит все карты</li>
-  </ul>
+### 👤 User Management
+- Create and update employee accounts (admin)
+- Change user credentials (username, password)
+- View user details
+- User status management (`ACTIVE`, `BLOCKED`, etc.)
 
-<strong>Пользователь:</strong>
-  <ul>
-    <li>Просматривает свои карты (поиск + пагинация)</li>
-    <li>Запрашивает блокировку карты</li>
-    <li>Делает переводы между своими картами</li>
-    <li>Смотрит баланс</li>
-  </ul>
+### 💳 Card Management
+- Create new cards with encrypted card numbers
+- Masked card number display
+- View card details (with decrypted number)
+- Update or delete cards (soft delete)
+- Change card status (`ACTIVE`, `BLOCKED`, `EXPIRED`)
+- Automatic card expiration check (scheduled job)
 
-<h3>✅ API</h3>
-  <ul>
-    <li>CRUD для карт</li>
-    <li>Переводы между своими картами</li>
-    <li>Фильтрация и постраничная выдача</li>
-    <li>Валидация и сообщения об ошибках</li>
-  </ul>
+### 💰 Transactions
+- Fill a card with balance (deposit)
+- Transfer money between user cards
+- Transaction history with type (`DEPOSIT`, `TRANSFER`)
+- Balance checking
 
-<h3>✅ Безопасность</h3>
-  <ul>
-    <li>Шифрование данных</li>
-    <li>Ролевой доступ</li>
-    <li>Маскирование номеров карт</li>
-  </ul>
+### 📊 Card Operations
+- Retrieve all cards with filtering & pagination
+- View only personal cards (authenticated user)
+- Card validation (block/expire checks before transactions)
 
-<h3>✅ Работа с БД</h3>
-  <ul>
-    <li>PostgreSQL или MySQL</li>
-    <li>Миграции через Liquibase (<code>src/main/resources/db/migration</code>)</li>
-  </ul>
+---
 
-<h3>✅ Документация</h3>
-  <ul>
-    <li>Swagger UI / OpenAPI — <code>docs/openapi.yaml</code></li>
-    <li><code>README.md</code> с инструкцией запуска</li>
-  </ul>
+## Technology Stack
+- **Java 17+**
+- **Spring Boot 3**
+- **Spring Security + JWT**
+- **Spring Data JPA**
+- **PostgreSQL** (or MySQL)
+- **Liquibase** for DB migrations
+- **Docker / Docker Compose**
+- **Swagger (OpenAPI)** for API documentation
+- **JUnit + MockMvc** for testing
 
-<h3>✅ Развёртывание и тестирование</h3>
-  <ul>
-    <li>Docker Compose для dev-среды</li>
-    <li>Liquibase миграции</li>
-    <li>Юнит-тесты ключевой бизнес-логики</li>
-  </ul>
+---
 
-<h2>📊 Оценка</h2>
-  <ul>
-    <li>Соответствие требованиям</li>
-    <li>Чистота архитектуры и кода</li>
-    <li>Безопасность</li>
-    <li>Обработка ошибок</li>
-    <li>Покрытие тестами</li>
-    <li>ООП и уровни абстракции</li>
-  </ul>
+## API Endpoints (Examples)
 
-<h2>💡 Технологии</h2>
-  <p>
-    Java 17+, Spring Boot, Spring Security, Spring Data JPA, PostgreSQL/MySQL, Liquibase, Docker, JWT, Swagger (OpenAPI)
-  </p>
+### Authentication
+- `POST /api/auth/login` – Login with username & password
+- `POST /api/auth/register` – Register new user (admin only)
+- `PUT /api/auth/change-password/{id}` – Change password
+- `PUT /api/auth/change-credentials/{id}` – Change username/email
 
-<h2> 📤 Формат сдачи</h2>
-<p>
-Весь код и изменения принимаются только через git-репозиторий с открытым доступом к проекту. Отправка файлов в любом виде не принимается.
-  </p>
-# Bank_Rest_Apis
+### Card Management
+- `POST /api/cards` – Create a new card
+- `GET /api/cards/{id}` – Get card details
+- `PUT /api/cards/{id}` – Update card
+- `DELETE /api/cards/{id}` – Delete card (soft delete)
+- `GET /api/cards/my` – Get user’s own cards
+- `PATCH /api/cards/{id}/status` – Change card status
+- `POST /api/cards/fill` – Fill card with money
+- `POST /api/cards/transfer` – Transfer money between cards
+- `GET /api/cards/{id}/balance` – Check balance
+
+---
+
+## Database
+- `users` – stores user accounts (with roles & status)
+- `cards` – stores encrypted card numbers, balance, status
+- `transactions` – stores transaction history
+
+---
+
+## Security
+- Password encryption with **BCrypt**
+- JWT token-based authentication
+- Role-based endpoint access
+- Validation for card operations (blocked, expired)
+
+---
+
+## Running the Project
+
+### Prerequisites
+- JDK 17+
+- Maven
+- Docker & Docker Compose
+- PostgreSQL
+
+### Steps
+1. Clone the repository:
+```bash
+git clone <repository-link>
