@@ -11,13 +11,14 @@ The system implements **role-based access control (RBAC)** using Spring Security
 
 ### 🔑 Authentication & Authorization
 - User registration and login
+- Only admin registers the user and provides them with a password (`default role is `user``)
 - JWT-based authentication
-- Role-based access control (`ADMIN`, `USER`, etc.)
+- Role-based access control (`ADMIN`, `USER`)
 - Secure password hashing with BCrypt
 
 ### 👤 User Management
 - Create and update employee accounts (admin)
-- Change user credentials (username, password)
+- Change user credentials
 - View user details
 - User status management (`ACTIVE`, `BLOCKED`, etc.)
 
@@ -58,21 +59,25 @@ The system implements **role-based access control (RBAC)** using Spring Security
 ## API Endpoints (Examples)
 
 ### Authentication
-- `POST /api/auth/login` – Login with username & password
-- `POST /api/auth/register` – Register new user (admin only)
-- `PUT /api/auth/change-password/{id}` – Change password
-- `PUT /api/auth/change-credentials/{id}` – Change username/email
+- `POST /auths/login` – Login with username & password
+- `POST /auths/register-user` – Register new user (admin only)
+- `PUT /auths/change-password` – Change password
+- `PUT /autha/change-credentials/{id}` – Change username/email
+- `Put /auths/update-user-by-admin` - Change users' data by admin only
+- `Get /get-user/{userId}` - getting a single user
 
 ### Card Management
-- `POST /api/cards` – Create a new card
-- `GET /api/cards/{id}` – Get card details
-- `PUT /api/cards/{id}` – Update card
-- `DELETE /api/cards/{id}` – Delete card (soft delete)
-- `GET /api/cards/my` – Get user’s own cards
-- `PATCH /api/cards/{id}/status` – Change card status
-- `POST /api/cards/fill` – Fill card with money
-- `POST /api/cards/transfer` – Transfer money between cards
-- `GET /api/cards/{id}/balance` – Check balance
+- `POST /api/v1/cards/add-card` – Create a new card
+- `GET /api/v1/cards/get/{id}` – Get card details
+- `PUT /api/v1/cards/update-card/{cardId}` – Update card
+- `DELETE /api/v1/cards/delete-card/{cardId}` – Delete card (soft delete)
+- `GET /api/v1/cards/get-own-cards` – Get user’s own cards
+- `PATCH /api/v1/cards/change-card-status/{cardId}` – Change card status
+- `POST /api/v1/cards/fill-card` – Fill card with money
+- `POST /api/v1/cards/transfer-money` – Transfer money between own cards
+- `GET /api/v1/cards/get-balance` – Check balance
+- `GET /api/v1/cards/get-card-details/{cardId}` – Get the user’s own card's details like real numbers
+- `GET /api/v1/cards/get-all-cards` - get all cards
 
 ---
 
